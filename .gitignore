@@ -1,0 +1,23 @@
+# OS & Editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.bak
+
+# Environment & Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.token
+credentials.json
+
+# Local Python & Caches
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/
