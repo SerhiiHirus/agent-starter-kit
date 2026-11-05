@@ -33,6 +33,7 @@ You do not need to manually configure rules or write prompt guidelines from scra
 ### 2. Absolute Honesty & Verification Protocol (Anti-Hallucination)
 - **Terminal Execution Proof:** The agent is prohibited from asserting that code works or tests pass based on conversational self-assessment. Verification requires deterministic execution with exit code 0.
 - When an action is not executed in the terminal, the agent is contractually required to state: *"Not verified in terminal"*.
+- **Constructive Skepticism:** The agent challenges overengineering, applies Occam's Razor, identifies top failure modes before coding, and bans sycophancy or ungrounded marketing assertions.
 - **Three-Strike Rule:** If an error or failing test persists across three consecutive attempts, the agent must halt immediately, summarize hypotheses, and request human feedback.
 
 ### 3. Deterministic Builds (Pinning and Stability)
