@@ -47,10 +47,9 @@ Based on user responses:
    - Save to `~/.gemini/profile.md`.
 
 2. **Generate `GEMINI.md`**:
-   - Set the communication language.
-   - If AI Automation was chosen, retain the `## AI AUTOMATION & LLM PIPELINES` section and subagent rules.
-   - If not chosen, remove the AI Automation section to keep the constitution ultra-lean.
-   - Save to `~/.gemini/GEMINI.md`.
+   - Set the preferred communication language and response style.
+   - Save the lean base constitution to `~/.gemini/GEMINI.md`.
+   - If domain modules were chosen (e.g. AI Automation or Trading), attach the corresponding module from `templates/modules/` to the project `GEMINI.md` or workspace rules.
 
 3. **Install Pre-Commit Zero-Leak Hook**:
    - Run `./install.sh` to ensure the user's machine is protected against secret leaks.

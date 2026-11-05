@@ -40,9 +40,11 @@ You do not need to manually configure rules or write prompt guidelines from scra
 - Floating dependency ranges (`>=`, `~>`) are prohibited in requirements and manifests.
 - Stable versions must be verified via documentation lookup (such as Context7) and pinned to exact versions (`package==X.Y.Z`) to guarantee reproducible builds across reboots and deployments.
 
-### 4. Autonomous Subagent Audit Gates (AI Automation Module)
-- **AI Security & Injection Auditor (Red Team):** Audits ingestion points and parsers for prompt injection vectors, content boundary separation, and SSRF protections.
-- **AI Reliability & Cost Auditor:** Enforces Pydantic `response_schema` validation, mandatory execution timeouts, bounded retry limits (maximum 3), and default `dry_run = True` flags for functions with external side-effects.
+### 4. Modular Domain Packs & Subagent Audit Gates
+- **Lean Global Core:** Routine development remains fast with zero artificial commit blockers. Subagent audits are triggered for major architectural milestones, complex pipelines, or prior to merging to main.
+- **Domain Modules (`templates/modules/`):** Plug-and-play guidelines for specialized fields:
+  - `ai_automation.md`: Prompt injection defenses, SSRF guards, strict Pydantic `response_schema`, bounded retries, and token cost controls.
+  - `trading_safety.md`: High-precision numeric safety (`Decimal`), mandatory paper/sandbox mode, and backtest integrity.
 
 ---
 
@@ -50,38 +52,70 @@ You do not need to manually configure rules or write prompt guidelines from scra
 
 ```text
 .
-|-- GEMINI.md               # Universal production-grade agent constitution
-|-- profile.template.md     # Developer profile template (stack, goals, preferences)
-|-- install.sh              # One-click environment installer and git hook setup
+|-- .github/workflows/ci.yml # Automated linting & security hook test suite
+|-- GEMINI.md                # Lean universal agent constitution
+|-- profile.template.md      # Developer profile template (stack, goals, preferences)
+|-- install.sh               # One-click environment installer and git hook setup
+|-- uninstall.sh             # Clean uninstaller that safely restores git configuration
+|-- init-project.sh          # CLI tool to scaffold rules and memory into any repo
+|-- docs/
+|   `-- CROSS_IDE.md         # Integration guide for Cursor, Claude Code, and Windsurf
 |-- skills/
-|   `-- onboarding/         # Interactive onboarding wizard for Antigravity
-|-- templates/              # Standard templates for session logs and notes
-`-- README.md               # Repository documentation
+|   `-- onboarding/          # Interactive onboarding wizard for Antigravity
+|-- templates/
+|   |-- .env.example         # Secret configuration template
+|   |-- PROJECT_LOG.template.md # Lightweight architectural session memory
+|   `-- modules/             # Specialized domain packs (ai_automation, trading_safety)
+|-- tests/
+|   `-- test_hook.sh         # Deterministic pre-commit hook test suite
+`-- README.md                # Repository documentation
 ```
 
 ---
 
-## Manual Installation (CLI)
+## CLI & Project Scaffolding
 
-To install configurations manually without conversational onboarding:
-
+### 1. Global Installation
+Install global constitution and git pre-commit protection:
 ```bash
-git clone https://github.com/<your-username>/agent-starter-kit.git
-cd agent-starter-kit
-
-# Run the installer (installs constitution to ~/.gemini and configures git hooks)
 ./install.sh
+```
+To safely revert at any time:
+```bash
+./uninstall.sh
+```
+
+### 2. Scaffold a New Project
+Quickly set up any repository with cross-IDE rules, session memory, and optional domain packs:
+```bash
+# Initialize for Cursor, Claude Code, and Antigravity:
+./init-project.sh /path/to/my-project --ide all
+
+# Initialize with AI Automation pack (SSRF guards, Pydantic response_schema, bounded retries):
+./init-project.sh /path/to/my-agent --module ai
+
+# Initialize with Trading Safety pack (Decimal precision, paper trading, slippage guards):
+./init-project.sh /path/to/my-quant-bot --module trading
 ```
 
 ---
 
 ## Cross-IDE Compatibility
 
-All operational rules are written in standard GitHub Flavored Markdown and operate across developer environments:
+All operational rules are written in standard GitHub Flavored Markdown and operate across developer environments. See [docs/CROSS_IDE.md](docs/CROSS_IDE.md) for detailed guidelines.
 - **Google Antigravity:** Native execution via `GEMINI.md` and `skills/`.
-- **Cursor:** Symlink configuration via `ln -s ~/.gemini/GEMINI.md .cursorrules`.
-- **Claude Code:** Import directly as `CLAUDE.md`.
+- **Cursor:** Automated setup via `./init-project.sh <path> --ide cursor` (or `.cursorrules`).
+- **Claude Code:** Automated setup via `./init-project.sh <path> --ide claude` (or `CLAUDE.md`).
 - **Windsurf / Cline / Roo Code:** Reference in workspace rules or system instructions.
+
+---
+
+## Automated Verification
+
+Run the security test suite locally to verify pre-commit secret blocking:
+```bash
+./tests/test_hook.sh
+```
 
 ---
 

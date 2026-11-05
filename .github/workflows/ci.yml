@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  verify:
+    name: Lint & Security Hook Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Validate Shell Script Syntax
+        run: |
+          bash -n install.sh
+          bash -n uninstall.sh
+          bash -n init-project.sh
+          bash -n tests/test_hook.sh
+
+      - name: Run Security Pre-Commit Hook Test Suite
+        run: |
+          ./tests/test_hook.sh

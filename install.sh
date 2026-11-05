@@ -53,7 +53,15 @@ if [ -d "${SCRIPT_DIR}/skills" ]; then
     echo -e "${GREEN}[OK]${NC} Installed skills -> ${TARGET_SKILLS_DIR}"
 fi
 
-# 5. Install Zero-Leak Git Pre-Commit Hook
+# 5. Install Templates & Domain Modules
+TARGET_TEMPLATES_DIR="${TARGET_GEMINI_DIR}/templates"
+mkdir -p "${TARGET_TEMPLATES_DIR}"
+if [ -d "${SCRIPT_DIR}/templates" ]; then
+    cp -R "${SCRIPT_DIR}/templates/"* "${TARGET_TEMPLATES_DIR}/"
+    echo -e "${GREEN}[OK]${NC} Installed templates and domain modules -> ${TARGET_TEMPLATES_DIR}"
+fi
+
+# 6. Install Zero-Leak Git Pre-Commit Hook
 echo -e "\n${BOLD}${BLUE}--- Setting up Zero-Leak Git Protection ---${NC}"
 mkdir -p "${TARGET_HOOKS_DIR}"
 
@@ -101,11 +109,20 @@ if [ -n "$GITLEAKS_BIN" ]; then
     fi
 fi
 
+echo -e "${GREEN}[OK] Zero-leak pre-commit verification passed.${NC}"
 exit 0
 EOF
 
 chmod +x "${TARGET_HOOKS_DIR}/pre-commit"
 ln -sf "${TARGET_HOOKS_DIR}/pre-commit" "${TARGET_HOOKS_DIR}/pre-push"
+
+# Backup existing core.hooksPath if set and not pointing to our target
+PREV_HOOKS=$(git config --global core.hooksPath 2>/dev/null || true)
+if [ -n "$PREV_HOOKS" ] && [ "$PREV_HOOKS" != "${TARGET_HOOKS_DIR}" ]; then
+    echo "$PREV_HOOKS" > "${TARGET_GEMINI_DIR}/previous_hooks_path"
+    echo -e "${YELLOW}[Backup]${NC} Saved existing git core.hooksPath -> ${TARGET_GEMINI_DIR}/previous_hooks_path"
+fi
+
 git config --global core.hooksPath "${TARGET_HOOKS_DIR}"
 echo -e "${GREEN}[OK]${NC} Universal Git Pre-Commit & Pre-Push hooks configured -> ${TARGET_HOOKS_DIR}"
 echo -e "${GREEN}[OK]${NC} Git configured globally with core.hooksPath"
