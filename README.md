@@ -55,9 +55,12 @@ You do not need to manually configure rules or write prompt guidelines from scra
 |-- .github/workflows/ci.yml # Automated linting & security hook test suite
 |-- GEMINI.md                # Lean universal agent constitution
 |-- profile.template.md      # Developer profile template (stack, goals, preferences)
-|-- install.sh               # One-click environment installer and git hook setup
-|-- uninstall.sh             # Clean uninstaller that safely restores git configuration
-|-- init-project.sh          # CLI tool to scaffold rules and memory into any repo
+|-- install.sh               # macOS/Linux installer and git hook setup
+|-- install.ps1              # Windows PowerShell installer and git hook setup
+|-- uninstall.sh             # macOS/Linux uninstaller (restores git config)
+|-- uninstall.ps1            # Windows PowerShell uninstaller
+|-- init-project.sh          # macOS/Linux CLI tool to scaffold rules into any repo
+|-- init-project.ps1         # Windows PowerShell CLI tool to scaffold rules
 |-- docs/
 |   `-- CROSS_IDE.md         # Integration guide for Cursor, Claude Code, and Windsurf
 |-- skills/
@@ -77,25 +80,44 @@ You do not need to manually configure rules or write prompt guidelines from scra
 
 ### 1. Global Installation
 Install global constitution and git pre-commit protection:
+
+**macOS / Linux:**
 ```bash
 ./install.sh
+# To uninstall: ./uninstall.sh
 ```
-To safely revert at any time:
-```bash
-./uninstall.sh
+
+**Windows (PowerShell):**
+```powershell
+.\install.ps1
+# To uninstall: .\uninstall.ps1
 ```
 
 ### 2. Scaffold a New Project
 Quickly set up any repository with cross-IDE rules, session memory, and optional domain packs:
+
+**macOS / Linux:**
 ```bash
 # Initialize for Cursor, Claude Code, and Antigravity:
 ./init-project.sh /path/to/my-project --ide all
 
-# Initialize with AI Automation pack (SSRF guards, Pydantic response_schema, bounded retries):
+# With AI Automation pack (SSRF guards, Pydantic response_schema, bounded retries):
 ./init-project.sh /path/to/my-agent --module ai
 
-# Initialize with Trading Safety pack (Decimal precision, paper trading, slippage guards):
+# With Trading Safety pack (Decimal precision, paper trading, slippage guards):
 ./init-project.sh /path/to/my-quant-bot --module trading
+```
+
+**Windows (PowerShell):**
+```powershell
+# Initialize for Cursor, Claude Code, and Antigravity:
+.\init-project.ps1 C:\path\to\my-project -Ide all
+
+# With AI Automation pack:
+.\init-project.ps1 C:\path\to\my-agent -Module ai
+
+# With Trading Safety pack:
+.\init-project.ps1 C:\path\to\my-quant-bot -Module trading
 ```
 
 ---

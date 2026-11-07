@@ -11,7 +11,7 @@ Antigravity automatically discovers:
 - Skills: `~/.gemini/antigravity/skills/`
 - Workspace instructions: `./GEMINI.md` in your repository root.
 
-**Zero setup needed:** Once installed via `./install.sh`, Antigravity picks up the configuration on its next turn.
+**Zero setup needed:** Once installed via `./install.sh` (or `.\install.ps1` on Windows), Antigravity picks up the configuration on its next turn.
 
 ---
 

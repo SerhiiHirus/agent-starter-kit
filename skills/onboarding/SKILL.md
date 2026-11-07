@@ -51,8 +51,11 @@ Based on user responses:
    - Save the lean base constitution to `~/.gemini/GEMINI.md`.
    - If domain modules were chosen (e.g. AI Automation or Trading), attach the corresponding module from `templates/modules/` to the project `GEMINI.md` or workspace rules.
 
-3. **Install Pre-Commit Zero-Leak Hook**:
-   - Run `./install.sh` to ensure the user's machine is protected against secret leaks.
+3. **Run Platform Installer**:
+   - Detect user OS:
+     - **Windows**: Run `powershell -ExecutionPolicy Bypass -File .\install.ps1`
+     - **macOS / Linux**: Run `./install.sh`
+   - This configures the global constitution (`~/.gemini/GEMINI.md`), profile, skills, modules, and zero-leak git pre-commit hooks natively on the host OS.
 
 ---
 
